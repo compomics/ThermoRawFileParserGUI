@@ -389,6 +389,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         }
 
         File thermoRawFileParserExecutable = new File(getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI") + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe");
+        thermoRawFileParserExecutable.setExecutable(true);
 
         process_name_array.clear();
         process_name_array.add(thermoRawFileParserExecutable.getAbsolutePath());
