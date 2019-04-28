@@ -4,7 +4,7 @@ Graphical user interface for the [ThermoRawFileParserGUI](ThermoRawFileParser).
 For help on the conversion options please see the [ThermoRawFileParserGUI](ThermoRawFileParser) documentation.
 
 ## Download
-[![download](https://github.com/compomics/ThermoRawFileParserGUI/wiki/images/download_button.png)](http://genesis.ugent.be/no/uib/1.0/ThermoRawFileParserGUI-1.0.zip)
+[![download](https://github.com/compomics/ThermoRawFileParserGUI/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/thermo-raw-file-parser-gui/ThermoRawFileParserGUI/1.0/ThermoRawFileParserGUI-1.0.zip)
 
 ## Release notes
 See [ReleaseNotes](https://github.com/compomics/peptide-shaker/wiki/ReleaseNotes).
