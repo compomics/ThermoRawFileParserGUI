@@ -7,7 +7,7 @@ For help on the conversion options please see the [ThermoRawFileParserGUI](Therm
 [![download](https://github.com/compomics/ThermoRawFileParserGUI/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/thermo-raw-file-parser-gui/ThermoRawFileParserGUI/1.0/ThermoRawFileParserGUI-1.0.zip)
 
 ## Release notes
-See [ReleaseNotes](https://github.com/compomics/peptide-shaker/wiki/ReleaseNotes).
+See [ReleaseNotes](https://github.com/compomics/ThermoRawFileParserGUI/wiki/ReleaseNotes).
 
 ## About the ThermoRawFileReader library
 
