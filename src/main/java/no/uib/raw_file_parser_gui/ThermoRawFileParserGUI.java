@@ -11,8 +11,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -46,6 +44,15 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      * The process.
      */
     Process p;
+    /**
+     * The raw files.
+     */
+    private ArrayList<File> rawFiles = new ArrayList<>();
+    /**
+     * If true, the command line is printed to the progress text area before
+     * starting the process.
+     */
+    private boolean debug = false;
 
     /**
      * Creates a new RawFileParserGUI.
@@ -107,13 +114,24 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         setTitle("ThermoRawFileParserGUI");
         setBackground(new java.awt.Color(230, 230, 230));
         setMinimumSize(new java.awt.Dimension(600, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         backgroundPanel.setBackground(new java.awt.Color(230, 230, 230));
 
         inputAndOutputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Input & Output"));
         inputAndOutputPanel.setOpaque(false);
 
+        rawFileTextField.setEditable(false);
         rawFileTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rawFileTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rawFileTextFieldMouseClicked(evt);
+            }
+        });
 
         browseRawFileButton.setText("Browse");
         browseRawFileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -122,10 +140,11 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             }
         });
 
-        rawFileLabel.setText("Raw File");
+        rawFileLabel.setText("Raw File(s)");
 
         outputFolderLabel.setText("Output Folder");
 
+        outputFolderTextField.setEditable(false);
         outputFolderTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         browseOutputFolderButton.setText("Browse");
@@ -380,79 +399,99 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      */
     private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
 
+        // prepare for processing
         progressJTextArea.setText(null);
+        convertButton.setEnabled(false);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI-orange.gif")));
 
-        process_name_array.clear();
-        
         // full path to executable
-        String operatingSystem = System.getProperty("os.name").toLowerCase();
-        if (!operatingSystem.contains("windows")) {
-            process_name_array.add("mono");
-        }
-
-        File thermoRawFileParserExecutable = new File(getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI") + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe");
+        File thermoRawFileParserExecutable = new File(getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI")
+                + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe");
         thermoRawFileParserExecutable.setExecutable(true);
 
-        process_name_array.add(thermoRawFileParserExecutable.getAbsolutePath());
-
-        process_name_array.add("-i=" + rawFileTextField.getText());
-        process_name_array.add("-o=" + outputFolderTextField.getText());
-        if (spectrumFormatComboBox.getSelectedIndex() < spectrumFormatComboBox.getItemCount() - 1) {
-            process_name_array.add("-f=" + spectrumFormatComboBox.getSelectedIndex());
-        }
-        if (metadataFormatComboBox.getSelectedIndex() < metadataFormatComboBox.getItemCount() - 1) {
-            process_name_array.add("-m=" + metadataFormatComboBox.getSelectedIndex());
-        }
-        if (gzippedComboBox.getSelectedIndex() == 0) {
-            process_name_array.add("-g");
-        }
-//        if (verboseComboBox.getSelectedIndex() == 0) {
-//            process_name_array.add("-v");
-//        }
-
-        if (errorHandlingComboBox.getSelectedIndex() == 0) {
-            process_name_array.add("-e");
-        }
-
-        // print the command to the log area
-        progressJTextArea.append("ThermoRawFileParser command:" + System.getProperty("line.separator"));
-
-        for (Object element : process_name_array) {
-            progressJTextArea.append(element + " ");
-        }
-
-        progressJTextArea.append(System.getProperty("line.separator") + System.getProperty("line.separator"));
-
-        pb = new ProcessBuilder(process_name_array);
-        pb.redirectErrorStream(true);
-
+        // start the conversion
         new Thread(new Runnable() {
             public void run() {
 
-                try {
-                    p = pb.start();
+                for (File tempRawFile : rawFiles) {
 
-                    // get inputstream from process
-                    InputStream inputStream = p.getInputStream();
+                    // clear the previous process
+                    process_name_array.clear();
 
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-                    String line;
-
-                    while ((line = bufferedReader.readLine()) != null) {
-
-                        progressJTextArea.append(line + System.getProperty("line.separator"));
-                        progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
-
+                    // use mono if not on windows
+                    String operatingSystem = System.getProperty("os.name").toLowerCase();
+                    if (!operatingSystem.contains("windows")) {
+                        process_name_array.add("mono");
                     }
 
-                    inputStream.close();
-                    bufferedReader.close();
+                    // add the executable
+                    process_name_array.add(thermoRawFileParserExecutable.getAbsolutePath());
 
-                } catch (IOException ex) {
-                    Logger.getLogger(ThermoRawFileParserGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    // add the conversion parameters
+                    process_name_array.add("-i=" + tempRawFile.getAbsolutePath());
+                    process_name_array.add("-o=" + outputFolderTextField.getText());
+                    if (spectrumFormatComboBox.getSelectedIndex() < spectrumFormatComboBox.getItemCount() - 1) {
+                        process_name_array.add("-f=" + spectrumFormatComboBox.getSelectedIndex());
+                    }
+                    if (metadataFormatComboBox.getSelectedIndex() < metadataFormatComboBox.getItemCount() - 1) {
+                        process_name_array.add("-m=" + metadataFormatComboBox.getSelectedIndex());
+                    }
+                    if (gzippedComboBox.getSelectedIndex() == 0) {
+                        process_name_array.add("-g");
+                    }
+                    if (errorHandlingComboBox.getSelectedIndex() == 0) {
+                        process_name_array.add("-e");
+                    }
+
+                    // print the command to the log area
+                    if (debug) {
+                        progressJTextArea.append("ThermoRawFileParser command:" + System.getProperty("line.separator"));
+                        for (Object element : process_name_array) {
+                            progressJTextArea.append(element + " ");
+                        }
+                        progressJTextArea.append(System.getProperty("line.separator") + System.getProperty("line.separator"));
+                    }
+
+                    // set up the process and redirect the error stream
+                    pb = new ProcessBuilder(process_name_array);
+                    pb.redirectErrorStream(true);
+
+                    try {
+                        p = pb.start();
+
+                        // get the inputstream from the process
+                        InputStream inputStream = p.getInputStream();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String line;
+
+                        while ((line = bufferedReader.readLine()) != null) {
+                            progressJTextArea.append(line + System.getProperty("line.separator"));
+                            progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                        }
+
+                        inputStream.close();
+                        bufferedReader.close();
+                    } catch (IOException ex) {
+                        progressJTextArea.append(ex.getMessage());
+                        ex.printStackTrace();
+                    } finally {
+                        // wait for the process to terminate
+                        try {
+                            p.waitFor();
+                            progressJTextArea.append(System.getProperty("line.separator") + "Conversion complete for " + tempRawFile.getAbsolutePath() + "." + System.getProperty("line.separator") + System.getProperty("line.separator"));
+                            progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                        } catch (InterruptedException e) {
+                            if (p != null) {
+                                p.destroy();
+                            }
+                        }
+                    }
                 }
 
+                progressJTextArea.append("Done.");
+                progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                convertButton.setEnabled(true);
+                setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI.gif")));
             }
         }, "ConvertThread").start();
 
@@ -541,15 +580,37 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             }
         };
         fc.setFileFilter(filter);
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fc.setMultiSelectionEnabled(true);
         int result = fc.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
 
-            File selectedFile = fc.getSelectedFile();
+            rawFiles = new ArrayList<>();
 
-            rawFileTextField.setText(selectedFile.getAbsolutePath());
+            for (File newFile : fc.getSelectedFiles()) {
+                if (newFile.isDirectory()) {
+                    File[] tempFiles = newFile.listFiles();
+                    for (File file : tempFiles) {
+                        String lowercaseName = file.getName().toLowerCase();
+                        if (lowercaseName.endsWith(".raw")) {
+                            rawFiles.add(file);
+                        }
+                    }
+                } else {
+                    File selectedFile = fc.getSelectedFile();
+                    String lowercaseName = selectedFile.getName().toLowerCase();
+                    if (lowercaseName.endsWith(".raw")) {
+                        rawFiles.add(selectedFile);
+                    }
+                }
+            }
+
+            if (rawFiles.size() == 1) {
+                rawFileTextField.setText(rawFiles.get(0).getAbsolutePath());
+            } else {
+                rawFileTextField.setText(rawFiles.size() + " files selected");
+            }
 
             if (rawFileTextField.getText().length() > 70) {
                 rawFileTextField.setHorizontalAlignment(JTextField.LEADING);
@@ -606,6 +667,44 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         validateInput();
     }//GEN-LAST:event_browseOutputFolderButtonActionPerformed
+
+    /**
+     * Display the list of selected raw files.
+     *
+     * @param evt the mouse event
+     */
+    private void rawFileTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rawFileTextFieldMouseClicked
+        if (!rawFiles.isEmpty()) {
+            ArrayList<File> tempRawFiles = new ArrayList<>(rawFiles);
+            FileDisplayDialog fileDisplayDialog = new FileDisplayDialog(this, tempRawFiles, true);
+            if (!fileDisplayDialog.canceled()) {
+                tempRawFiles = fileDisplayDialog.getSelectedFiles();
+
+                if (tempRawFiles.size() == 1) {
+                    rawFileTextField.setText(tempRawFiles.get(0).getAbsolutePath());
+                } else {
+                    rawFileTextField.setText(tempRawFiles.size() + " files selected");
+                }
+
+                rawFiles.clear();
+                for (File file : tempRawFiles) {
+                    rawFiles.add(file);
+                }
+                validateInput();
+            }
+        }
+    }//GEN-LAST:event_rawFileTextFieldMouseClicked
+
+    /**
+     * Shut down the conversion process if the window is closed by the user.
+     *
+     * @param evt
+     */
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (p != null) {
+            p.destroy();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * The main method used to start ThermoRawFileParserGUI.
