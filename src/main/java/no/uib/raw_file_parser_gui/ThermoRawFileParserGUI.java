@@ -262,7 +262,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -297,9 +297,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         errorHandlingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ignore missing instrument properties", "Stop conversion if instrument properties are missing" }));
 
-        peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Native Thermo library peak picking", "No peak picking" }));
+        peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No peak picking", "Native Thermo library peak picking" }));
+        peakPickingComboBox.setSelectedIndex(1);
 
-        peakPickingLabel.setText("Peak picking");
+        peakPickingLabel.setText("Peak Picking");
 
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
@@ -342,10 +343,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(peakPickingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(peakPickingLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(errorHandlingLabel)
-                    .addComponent(errorHandlingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(errorHandlingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(errorHandlingLabel))
                 .addContainerGap())
         );
 
@@ -459,7 +460,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     if (gzippedComboBox.getSelectedIndex() == 0) {
                         process_name_array.add("-g");
                     }
-                    if (peakPickingComboBox.getSelectedIndex() == 1) {
+                    if (peakPickingComboBox.getSelectedIndex() == 0) {
                         process_name_array.add("-p");
                     }
                     if (errorHandlingComboBox.getSelectedIndex() == 0) {
