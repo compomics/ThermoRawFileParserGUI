@@ -63,6 +63,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         spectrumFormatComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         metadataFormatComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         gzippedComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        peakPickingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         errorHandlingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
 
         // set the font color for the titled borders, looks better than the default black
@@ -109,6 +110,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         gzippedComboBox = new javax.swing.JComboBox<>();
         errorHandlingLabel = new javax.swing.JLabel();
         errorHandlingComboBox = new javax.swing.JComboBox<>();
+        peakPickingComboBox = new javax.swing.JComboBox<>();
+        peakPickingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ThermoRawFileParserGUI");
@@ -259,7 +262,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -268,12 +271,22 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         spectrumFormatLabel.setText("Spectrum");
 
-        spectrumFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MGF", "mzML", "mzML (indexed)", "Parquet", "MGF (profile data excluded)", "None" }));
+        spectrumFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MGF", "mzML", "mzML (indexed)", "Parquet", "None" }));
+        spectrumFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spectrumFormatComboBoxActionPerformed(evt);
+            }
+        });
 
         metadataFormatLabel.setText("Metadata");
 
         metadataFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JSON", "TXT", "None" }));
         metadataFormatComboBox.setSelectedIndex(2);
+        metadataFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                metadataFormatComboBoxActionPerformed(evt);
+            }
+        });
 
         gzippedLabel.setText("GZipped");
 
@@ -284,27 +297,30 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         errorHandlingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ignore missing instrument properties", "Stop conversion if instrument properties are missing" }));
 
+        peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Native Thermo library peak picking", "No peak picking" }));
+
+        peakPickingLabel.setText("Peak picking");
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(spectrumFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gzippedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(metadataFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(errorHandlingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(peakPickingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spectrumFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(gzippedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(metadataFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(metadataFormatComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(gzippedComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(spectrumFormatComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(errorHandlingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(errorHandlingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(metadataFormatComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gzippedComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spectrumFormatComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 495, Short.MAX_VALUE)
+                    .addComponent(errorHandlingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(peakPickingComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         settingsPanelLayout.setVerticalGroup(
@@ -324,6 +340,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     .addComponent(gzippedComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(peakPickingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(peakPickingLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(errorHandlingLabel)
                     .addComponent(errorHandlingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -338,8 +358,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addComponent(aboutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(githubLinkLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                .addGap(77, 77, 77)
-                .addComponent(convertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76)
+                .addComponent(convertButton)
                 .addGap(23, 23, 23))
             .addGroup(backgroundPanelLayout.createSequentialGroup()
                 .addContainerGap()
@@ -438,6 +458,9 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     }
                     if (gzippedComboBox.getSelectedIndex() == 0) {
                         process_name_array.add("-g");
+                    }
+                    if (peakPickingComboBox.getSelectedIndex() == 1) {
+                        process_name_array.add("-p");
                     }
                     if (errorHandlingComboBox.getSelectedIndex() == 0) {
                         process_name_array.add("-e");
@@ -597,11 +620,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             rawFiles.add(file);
                         }
                     }
-                } else {
-                    File selectedFile = fc.getSelectedFile();
-                    String lowercaseName = selectedFile.getName().toLowerCase();
+                } else {                    
+                    String lowercaseName = newFile.getName().toLowerCase();
                     if (lowercaseName.endsWith(".raw")) {
-                        rawFiles.add(selectedFile);
+                        rawFiles.add(newFile);
                     }
                 }
             }
@@ -706,6 +728,14 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void spectrumFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spectrumFormatComboBoxActionPerformed
+        validateInput();
+    }//GEN-LAST:event_spectrumFormatComboBoxActionPerformed
+
+    private void metadataFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_metadataFormatComboBoxActionPerformed
+        validateInput();
+    }//GEN-LAST:event_metadataFormatComboBoxActionPerformed
+
     /**
      * The main method used to start ThermoRawFileParserGUI.
      *
@@ -754,6 +784,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JLabel metadataFormatLabel;
     private javax.swing.JLabel outputFolderLabel;
     private javax.swing.JTextField outputFolderTextField;
+    private javax.swing.JComboBox<String> peakPickingComboBox;
+    private javax.swing.JLabel peakPickingLabel;
     private javax.swing.JTextArea progressJTextArea;
     private javax.swing.JPanel progressPanel;
     private javax.swing.JScrollPane progressScrollPane;
@@ -819,6 +851,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      * the convert button.
      */
     private void validateInput() {
-        convertButton.setEnabled(rawFileTextField.getText().length() > 0 && outputFolderTextField.getText().length() > 0);
+        convertButton.setEnabled(rawFileTextField.getText().length() > 0 && outputFolderTextField.getText().length() > 0
+                && !(spectrumFormatComboBox.getSelectedIndex() == spectrumFormatComboBox.getItemCount() - 1
+                && metadataFormatComboBox.getSelectedIndex() == metadataFormatComboBox.getItemCount() - 1));
     }
 }

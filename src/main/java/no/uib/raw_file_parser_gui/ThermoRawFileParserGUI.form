@@ -65,8 +65,8 @@
                   <Component id="aboutButton" min="-2" pref="116" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="githubLinkLabel" pref="211" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                  <Component id="convertButton" min="-2" pref="174" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                  <Component id="convertButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -284,7 +284,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="progressScrollPane" pref="208" max="32767" attributes="0"/>
+                      <Component id="progressScrollPane" pref="204" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -322,28 +322,25 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="spectrumFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                                  <Component id="gzippedLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                                  <Component id="metadataFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="metadataFormatComboBox" max="32767" attributes="0"/>
-                                  <Component id="gzippedComboBox" max="32767" attributes="0"/>
-                                  <Component id="spectrumFormatComboBox" max="32767" attributes="0"/>
-                              </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="spectrumFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="gzippedLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="metadataFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="errorHandlingLabel" min="-2" pref="80" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                              <Component id="errorHandlingComboBox" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="errorHandlingLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="peakPickingLabel" min="-2" pref="80" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="metadataFormatComboBox" alignment="1" max="32767" attributes="0"/>
+                          <Component id="gzippedComboBox" alignment="1" max="32767" attributes="0"/>
+                          <Component id="spectrumFormatComboBox" alignment="1" pref="495" max="32767" attributes="0"/>
+                          <Component id="errorHandlingComboBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="peakPickingComboBox" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -367,10 +364,15 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="errorHandlingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="errorHandlingComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="peakPickingComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="peakPickingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="errorHandlingLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="errorHandlingComboBox" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -384,16 +386,18 @@
             <Component class="javax.swing.JComboBox" name="spectrumFormatComboBox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="6">
+                  <StringArray count="5">
                     <StringItem index="0" value="MGF"/>
                     <StringItem index="1" value="mzML"/>
                     <StringItem index="2" value="mzML (indexed)"/>
                     <StringItem index="3" value="Parquet"/>
-                    <StringItem index="4" value="MGF (profile data excluded)"/>
-                    <StringItem index="5" value="None"/>
+                    <StringItem index="4" value="None"/>
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="spectrumFormatComboBoxActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -414,6 +418,9 @@
                 </Property>
                 <Property name="selectedIndex" type="int" value="2"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="metadataFormatComboBoxActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -454,6 +461,24 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="peakPickingComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="Native Thermo library peak picking"/>
+                    <StringItem index="1" value="No peak picking"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="peakPickingLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Peak picking"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
