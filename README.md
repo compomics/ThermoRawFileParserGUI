@@ -1,6 +1,8 @@
 # ThermoRawFileParserGUI
 Graphical user interface for the [ThermoRawFileParser](https://github.com/compomics/ThermoRawFileParser).
 
+You can either select one or more RAW files or a directory containing the RAW files.
+
 For help on the conversion options please see the [ThermoRawFileParser](https://github.com/compomics/ThermoRawFileParser) documentation.
 
 ## Download
