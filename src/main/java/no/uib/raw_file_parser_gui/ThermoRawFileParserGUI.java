@@ -2,15 +2,14 @@ package no.uib.raw_file_parser_gui;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -48,6 +47,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      * The raw files.
      */
     private ArrayList<File> rawFiles = new ArrayList<>();
+    /**
+     * The last selected folder.
+     */
+    private File lastSelectedFolder = null;
     /**
      * If true, the command line is printed to the progress text area before
      * starting the process.
@@ -485,16 +488,31 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
                         // get the inputstream from the process
                         InputStream inputStream = p.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line;
 
-                        while ((line = bufferedReader.readLine()) != null) {
-                            progressJTextArea.append(line + System.getProperty("line.separator"));
-                            progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                        Scanner scanner = new Scanner(inputStream);
+                        scanner.useDelimiter("\\s|\\n");
+
+                        // get input from scanner, send to progress area
+                        while (scanner.hasNext()) {
+                            String temp = scanner.next();
+
+                            if (!temp.isEmpty()) {
+
+                                progressJTextArea.append(temp + " ");
+
+                                if (temp.endsWith("scans")) {
+                                    progressJTextArea.append("\n");
+                                }
+
+                                progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                            } else {
+                                progressJTextArea.append("\n");
+                            }
                         }
 
+                        scanner.close();
                         inputStream.close();
-                        bufferedReader.close();
+
                     } catch (IOException ex) {
                         progressJTextArea.append(ex.getMessage());
                         ex.printStackTrace();
@@ -502,7 +520,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                         // wait for the process to terminate
                         try {
                             p.waitFor();
-                            progressJTextArea.append(System.getProperty("line.separator") + "Conversion complete for " + tempRawFile.getAbsolutePath() + "." + System.getProperty("line.separator") + System.getProperty("line.separator"));
+                            progressJTextArea.append(System.getProperty("line.separator") + "Conversion complete for " + tempRawFile.getAbsolutePath() + System.getProperty("line.separator") + System.getProperty("line.separator"));
                             progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
                         } catch (InterruptedException e) {
                             if (p != null) {
@@ -512,7 +530,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     }
                 }
 
-                progressJTextArea.append("Done.");
+                progressJTextArea.append("Done");
                 progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
                 convertButton.setEnabled(true);
                 setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI.gif")));
@@ -586,7 +604,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      */
     private void browseRawFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseRawFileButtonActionPerformed
 
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser(lastSelectedFolder);
 
         FileFilter filter = new FileFilter() {
             @Override
@@ -614,6 +632,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
             for (File newFile : fc.getSelectedFiles()) {
                 if (newFile.isDirectory()) {
+                    lastSelectedFolder = newFile;
                     File[] tempFiles = newFile.listFiles();
                     for (File file : tempFiles) {
                         String lowercaseName = file.getName().toLowerCase();
@@ -621,10 +640,11 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             rawFiles.add(file);
                         }
                     }
-                } else {                    
+                } else {
                     String lowercaseName = newFile.getName().toLowerCase();
                     if (lowercaseName.endsWith(".raw")) {
                         rawFiles.add(newFile);
+                        lastSelectedFolder = newFile.getParentFile();
                     }
                 }
             }
@@ -653,7 +673,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      */
     private void browseOutputFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseOutputFolderButtonActionPerformed
 
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser(lastSelectedFolder);
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.setMultiSelectionEnabled(false);
 
@@ -686,6 +706,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             } else {
                 outputFolderTextField.setHorizontalAlignment(JTextField.CENTER);
             }
+            lastSelectedFolder = outputFolder;
         }
 
         validateInput();
