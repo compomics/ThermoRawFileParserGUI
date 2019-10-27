@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
+import java.util.StringTokenizer;
 
 /**
  * A simple graphical user interface for running the ThermoRawFileParser.
@@ -445,7 +446,20 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     // use mono if not on windows
                     String operatingSystem = System.getProperty("os.name").toLowerCase();
                     if (!operatingSystem.contains("windows")) {
-                        process_name_array.add("mono");
+                        String monoPath = "mono";
+                        
+                        // modern Mac OS x versions need an specific mono path
+                        if (operatingSystem.contains("mac os x")) {                            
+                            StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"),".");
+                            if (versionTokens.countTokens() > 1){
+                                int mainVersion = new Integer(versionTokens.nextToken());
+                                int subversion = new Integer(versionTokens.nextToken());
+                                if (mainVersion >= 10 && subversion >= 11){
+                                    monoPath="/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";                           
+                                }
+                            }
+                        }                       
+                        process_name_array.add(monoPath);                        
                     }
 
                     // add the executable
