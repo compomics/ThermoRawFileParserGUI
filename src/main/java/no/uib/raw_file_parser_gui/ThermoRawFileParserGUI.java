@@ -447,19 +447,19 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     String operatingSystem = System.getProperty("os.name").toLowerCase();
                     if (!operatingSystem.contains("windows")) {
                         String monoPath = "mono";
-                        
-                        // modern Mac OS x versions need an specific mono path
-                        if (operatingSystem.contains("mac os x")) {                            
-                            StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"),".");
-                            if (versionTokens.countTokens() > 1){
+
+                        // modern mac os x versions need a specific mono path
+                        if (operatingSystem.contains("mac os x")) {
+                            StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"), ".");
+                            if (versionTokens.countTokens() > 1) {
                                 int mainVersion = new Integer(versionTokens.nextToken());
                                 int subversion = new Integer(versionTokens.nextToken());
-                                if (mainVersion >= 10 && subversion >= 11){
-                                    monoPath="/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";                           
+                                if (mainVersion >= 10 && subversion >= 11) {
+                                    monoPath = "/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";
                                 }
                             }
-                        }                       
-                        process_name_array.add(monoPath);                        
+                        }
+                        process_name_array.add(monoPath);
                     }
 
                     // add the executable
