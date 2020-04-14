@@ -76,6 +76,9 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         // update the horizontal padding for the titled borders
         ((TitledBorder) inputAndOutputPanel.getBorder()).setTitle(TITLED_BORDER_HORIZONTAL_PADDING + ((TitledBorder) inputAndOutputPanel.getBorder()).getTitle() + TITLED_BORDER_HORIZONTAL_PADDING);
 
+        // add the version number to the title bar
+        setTitle("ThermoRawFileParserGUI " + new no.uib.raw_file_parser_gui.Properties().getVersion());
+        
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI.gif")));
 
         setLocationRelativeTo(null);
