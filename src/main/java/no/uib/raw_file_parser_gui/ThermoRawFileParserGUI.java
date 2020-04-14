@@ -105,6 +105,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressPanel = new javax.swing.JPanel();
         progressScrollPane = new javax.swing.JScrollPane();
         progressJTextArea = new javax.swing.JTextArea();
+        totalProgressBar = new javax.swing.JProgressBar();
+        fileProgressBar = new javax.swing.JProgressBar();
         settingsPanel = new javax.swing.JPanel();
         spectrumFormatLabel = new javax.swing.JLabel();
         spectrumFormatComboBox = new javax.swing.JComboBox<>();
@@ -254,20 +256,35 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressJTextArea.setWrapStyleWord(true);
         progressScrollPane.setViewportView(progressJTextArea);
 
+        totalProgressBar.setToolTipText("Total Progress");
+        totalProgressBar.setString("");
+        totalProgressBar.setStringPainted(true);
+
+        fileProgressBar.setToolTipText("Individual File Progress");
+        fileProgressBar.setStringPainted(true);
+
         javax.swing.GroupLayout progressPanelLayout = new javax.swing.GroupLayout(progressPanel);
         progressPanel.setLayout(progressPanelLayout);
         progressPanelLayout.setHorizontalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(progressScrollPane)
+                .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                    .addGroup(progressPanelLayout.createSequentialGroup()
+                        .addComponent(totalProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fileProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(totalProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fileProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings"));
@@ -296,13 +313,28 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         gzippedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yes", "No" }));
         gzippedComboBox.setSelectedIndex(1);
+        gzippedComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gzippedComboBoxActionPerformed(evt);
+            }
+        });
 
         errorHandlingLabel.setText("Errors");
 
         errorHandlingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ignore missing instrument properties", "Stop conversion if instrument properties are missing" }));
+        errorHandlingComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                errorHandlingComboBoxActionPerformed(evt);
+            }
+        });
 
         peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No peak picking", "Native Thermo library peak picking" }));
         peakPickingComboBox.setSelectedIndex(1);
+        peakPickingComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                peakPickingComboBoxActionPerformed(evt);
+            }
+        });
 
         peakPickingLabel.setText("Peak Picking");
 
@@ -438,7 +470,14 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         new Thread(new Runnable() {
             public void run() {
 
+                totalProgressBar.setMaximum(rawFiles.size());
+                totalProgressBar.setValue(0);
+                int fileConversionCounter = 0;
+
                 for (File tempRawFile : rawFiles) {
+
+                    totalProgressBar.setString("Converting File " + ++fileConversionCounter + "/" + rawFiles.size());
+                    fileProgressBar.setValue(0);
 
                     // clear the previous process
                     process_name_array.clear();
@@ -506,21 +545,27 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                         Scanner scanner = new Scanner(inputStream);
                         scanner.useDelimiter("\\s|\\n");
 
+                        boolean lastLineWasEmpty = false;
+
                         // get input from scanner, send to progress area
                         while (scanner.hasNext()) {
                             String temp = scanner.next();
 
                             if (!temp.isEmpty()) {
 
-                                progressJTextArea.append(temp + " ");
-
-                                if (temp.endsWith("scans")) {
-                                    progressJTextArea.append("\n");
+                                if (temp.endsWith("%")) {
+                                    fileProgressBar.setValue(fileProgressBar.getValue() + 10);
+                                } else {
+                                    progressJTextArea.append(temp + " ");
+                                    lastLineWasEmpty = false;
                                 }
 
                                 progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
                             } else {
-                                progressJTextArea.append("\n");
+                                if (!lastLineWasEmpty) {
+                                    progressJTextArea.append("\n");
+                                }
+                                lastLineWasEmpty = true;
                             }
                         }
 
@@ -534,7 +579,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                         // wait for the process to terminate
                         try {
                             p.waitFor();
-                            progressJTextArea.append(System.getProperty("line.separator") + "Conversion complete for " + tempRawFile.getAbsolutePath() + System.getProperty("line.separator") + System.getProperty("line.separator"));
+                            totalProgressBar.setValue(fileConversionCounter);
+                            progressJTextArea.append(System.getProperty("line.separator")
+                                    + "Conversion complete for " + tempRawFile.getAbsolutePath()
+                                    + System.getProperty("line.separator") + System.getProperty("line.separator"));
                             progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
                         } catch (InterruptedException e) {
                             if (p != null) {
@@ -674,6 +722,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             } else {
                 rawFileTextField.setHorizontalAlignment(JTextField.CENTER);
             }
+
+            resetGui();
         }
 
         validateInput();
@@ -698,15 +748,19 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             File tempDir = fc.getSelectedFile();
 
             if (!tempDir.exists()) {
-                int value = JOptionPane.showConfirmDialog(this, "The folder \'" + tempDir.getAbsolutePath() + "\' does not exist.\n"
-                        + "Do you want to create it?", "Create Folder?", JOptionPane.YES_NO_OPTION);
+                int value = JOptionPane.showConfirmDialog(this, "The folder \'"
+                        + tempDir.getAbsolutePath() + "\' does not exist.\n"
+                        + "Do you want to create it?",
+                        "Create Folder?", JOptionPane.YES_NO_OPTION);
                 if (value == JOptionPane.NO_OPTION) {
                     return;
                 } else { // yes option selected
                     boolean success = tempDir.mkdir();
 
                     if (!success) {
-                        JOptionPane.showMessageDialog(this, "Failed to create the folder. Please create it manually and then select it.",
+                        JOptionPane.showMessageDialog(this,
+                                "Failed to create the folder. "
+                                + "Please create it manually and then select it.",
                                 "File Error", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
@@ -715,12 +769,16 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
             File outputFolder = fc.getSelectedFile();
             outputFolderTextField.setText(outputFolder.getAbsolutePath());
+
             if (outputFolderTextField.getText().length() > 70) {
                 outputFolderTextField.setHorizontalAlignment(JTextField.LEADING);
             } else {
                 outputFolderTextField.setHorizontalAlignment(JTextField.CENTER);
             }
+
             lastSelectedFolder = outputFolder;
+
+            resetGui();
         }
 
         validateInput();
@@ -764,13 +822,52 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     * Clear the old results and validate the input.
+     * 
+     * @param evt 
+     */
     private void spectrumFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spectrumFormatComboBoxActionPerformed
+        resetGui();
         validateInput();
     }//GEN-LAST:event_spectrumFormatComboBoxActionPerformed
 
+    /**
+     * Clear the old results and validate the input.
+     * 
+     * @param evt 
+     */
     private void metadataFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_metadataFormatComboBoxActionPerformed
+        resetGui();
         validateInput();
     }//GEN-LAST:event_metadataFormatComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     * 
+     * @param evt 
+     */
+    private void gzippedComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gzippedComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_gzippedComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     * 
+     * @param evt 
+     */
+    private void peakPickingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peakPickingComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_peakPickingComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     * 
+     * @param evt 
+     */
+    private void errorHandlingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorHandlingComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_errorHandlingComboBoxActionPerformed
 
     /**
      * The main method used to start ThermoRawFileParserGUI.
@@ -812,6 +909,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JButton convertButton;
     private javax.swing.JComboBox<String> errorHandlingComboBox;
     private javax.swing.JLabel errorHandlingLabel;
+    private javax.swing.JProgressBar fileProgressBar;
     private javax.swing.JLabel githubLinkLabel;
     private javax.swing.JComboBox<String> gzippedComboBox;
     private javax.swing.JLabel gzippedLabel;
@@ -830,6 +928,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JComboBox<String> spectrumFormatComboBox;
     private javax.swing.JLabel spectrumFormatLabel;
+    private javax.swing.JProgressBar totalProgressBar;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -890,5 +989,16 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         convertButton.setEnabled(rawFileTextField.getText().length() > 0 && outputFolderTextField.getText().length() > 0
                 && !(spectrumFormatComboBox.getSelectedIndex() == spectrumFormatComboBox.getItemCount() - 1
                 && metadataFormatComboBox.getSelectedIndex() == metadataFormatComboBox.getItemCount() - 1));
+    }
+
+    /**
+     * Clear the log and resets the progress bars.
+     */
+    private void resetGui() {
+        progressJTextArea.setText(null);
+        totalProgressBar.setValue(0);
+        totalProgressBar.setString("");
+        fileProgressBar.setValue(0);
+        fileProgressBar.setString(null);
     }
 }
