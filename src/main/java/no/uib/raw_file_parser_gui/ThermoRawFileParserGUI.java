@@ -66,6 +66,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         spectrumFormatComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         metadataFormatComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        allDetectorsComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         gzippedComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         peakPickingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         errorHandlingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
@@ -116,6 +117,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         spectrumFormatComboBox = new javax.swing.JComboBox<>();
         metadataFormatLabel = new javax.swing.JLabel();
         metadataFormatComboBox = new javax.swing.JComboBox<>();
+        allDetectorsLabel = new javax.swing.JLabel();
+        allDetectorsComboBox = new javax.swing.JComboBox<>();
         gzippedLabel = new javax.swing.JLabel();
         gzippedComboBox = new javax.swing.JComboBox<>();
         errorHandlingLabel = new javax.swing.JLabel();
@@ -286,7 +289,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addComponent(progressScrollPane)
+                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(totalProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,6 +315,16 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         metadataFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 metadataFormatComboBoxActionPerformed(evt);
+            }
+        });
+
+        allDetectorsLabel.setText("All Detectors");
+
+        allDetectorsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yes", "No" }));
+        allDetectorsComboBox.setSelectedIndex(1);
+        allDetectorsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allDetectorsComboBoxActionPerformed(evt);
             }
         });
 
@@ -378,7 +391,11 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
                         .addComponent(compressionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(compressionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(compressionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                        .addComponent(allDetectorsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(allDetectorsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         settingsPanelLayout.setVerticalGroup(
@@ -396,6 +413,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(metadataFormatLabel)
                     .addComponent(metadataFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(allDetectorsLabel)
+                    .addComponent(allDetectorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gzippedLabel)
@@ -546,6 +567,9 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     }
                     if (compressionComboBox.getSelectedIndex() == 1) {
                         process_name_array.add("-z");
+                    }
+                    if (allDetectorsComboBox.getSelectedIndex() == 1) {
+                        process_name_array.add("-a");
                     }
                     if (errorHandlingComboBox.getSelectedIndex() == 0) {
                         process_name_array.add("-e");
@@ -907,6 +931,15 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_compressionComboBoxActionPerformed
 
     /**
+     * Clear the old results.
+     * 
+     * @param evt 
+     */
+    private void allDetectorsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allDetectorsComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_allDetectorsComboBoxActionPerformed
+
+    /**
      * The main method used to start ThermoRawFileParserGUI.
      *
      * @param args the command line arguments
@@ -940,6 +973,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;
+    private javax.swing.JComboBox<String> allDetectorsComboBox;
+    private javax.swing.JLabel allDetectorsLabel;
     private javax.swing.JPanel backgroundPanel;
     private javax.swing.JButton browseOutputFolderButton;
     private javax.swing.JButton browseRawFileButton;
