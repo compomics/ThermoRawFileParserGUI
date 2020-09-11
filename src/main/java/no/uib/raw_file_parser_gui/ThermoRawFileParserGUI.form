@@ -36,7 +36,6 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="backgroundPanel" max="32767" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,7 +63,7 @@
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="aboutButton" min="-2" pref="116" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="githubLinkLabel" pref="211" max="32767" attributes="0"/>
+                  <Component id="githubLinkLabel" pref="204" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                   <Component id="convertButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
@@ -234,7 +233,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="githubLinkLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;For more details, see &lt;a href=\u005c&quot;https://github.com/compomics/ThermoRawFileParserGUI\u005c&quot;&gt;ThermoRawFileParserGUI at GitHub&lt;/a&gt;&lt;/html&gt;" containsInvalidXMLChars="true"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;For more details, see &lt;br&gt;&lt;a href=\u005c&quot;https://github.com/compomics/ThermoRawFileParserGUI\u005c&quot;&gt;ThermoRawFileParserGUI at GitHub&lt;/a&gt;&lt;/html&gt;" containsInvalidXMLChars="true"/>
             <Property name="toolTipText" type="java.lang.String" value="Open the ThermoRawFileParserGUI GitHub page"/>
           </Properties>
           <Events>
@@ -277,7 +276,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="progressScrollPane" pref="587" max="32767" attributes="0"/>
+                          <Component id="progressScrollPane" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="totalProgressBar" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -291,7 +290,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="progressScrollPane" pref="187" max="32767" attributes="0"/>
+                      <Component id="progressScrollPane" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="totalProgressBar" min="-2" max="-2" attributes="0"/>
@@ -346,39 +345,66 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="spectrumFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                                      <Component id="gzippedLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                                      <Component id="metadataFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="errorHandlingLabel" min="-2" pref="80" max="-2" attributes="0"/>
-                                  <Component id="peakPickingLabel" min="-2" pref="80" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="metadataFormatComboBox" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="gzippedComboBox" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="spectrumFormatComboBox" alignment="1" pref="495" max="32767" attributes="0"/>
-                                  <Component id="errorHandlingComboBox" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="peakPickingComboBox" alignment="1" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="spectrumFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                                          <Component id="gzippedLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                                          <Component id="metadataFormatLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="spectrumFormatComboBox" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="metadataFormatComboBox" max="32767" attributes="0"/>
+                                          <Component id="gzippedComboBox" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="errorHandlingLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="errorHandlingComboBox" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="mgfTitlesLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="mgfTitlesComboBox" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="allDetectorsLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="allDetectorsComboBox" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="compressionLabel" min="-2" pref="80" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="compressionComboBox" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="allDetectorsLabel" min="-2" pref="80" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="allDetectorsComboBox" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="peakPickingLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="peakPickingComboBox" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="msLevelsLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lowerMsLevelComboBox" max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      <Component id="msLevelDivderLabel" min="-2" pref="33" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      <Component id="upperMsLevelComboBox" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="compressionLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="compressionComboBox" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -390,32 +416,44 @@
                           <Component id="spectrumFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="spectrumFormatComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="compressionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="compressionComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="mgfTitlesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="mgfTitlesComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="metadataFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="metadataFormatComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="msLevelsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lowerMsLevelComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="msLevelDivderLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="upperMsLevelComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="allDetectorsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="allDetectorsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="gzippedLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="gzippedComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="peakPickingComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="peakPickingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="metadataFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="metadataFormatComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="allDetectorsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="allDetectorsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="gzippedLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="gzippedComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="compressionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="compressionComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="errorHandlingComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="errorHandlingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -449,6 +487,96 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="mgfTitlesLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="MGF Titles"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="mgfTitlesComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="Default"/>
+                    <StringItem index="1" value="Include precursor scan number"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mgfTitlesComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="msLevelsLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="MS Levels"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="lowerMsLevelComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="All"/>
+                    <StringItem index="1" value="1"/>
+                    <StringItem index="2" value="2"/>
+                    <StringItem index="3" value="3"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lowerMsLevelComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="msLevelDivderLabel">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="-"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="upperMsLevelComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="3">
+                    <StringItem index="0" value="1"/>
+                    <StringItem index="1" value="2"/>
+                    <StringItem index="2" value="3"/>
+                  </StringArray>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upperMsLevelComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="peakPickingComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="No peak picking"/>
+                    <StringItem index="1" value="Native Thermo library peak picking"/>
+                  </StringArray>
+                </Property>
+                <Property name="selectedIndex" type="int" value="1"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="peakPickingComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="peakPickingLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Peak Picking"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="metadataFormatLabel">
               <Properties>
@@ -517,49 +645,6 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JLabel" name="errorHandlingLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Errors"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="errorHandlingComboBox">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Ignore missing instrument properties"/>
-                    <StringItem index="1" value="Stop conversion if instrument properties are missing"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="errorHandlingComboBoxActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="peakPickingComboBox">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="No peak picking"/>
-                    <StringItem index="1" value="Native Thermo library peak picking"/>
-                  </StringArray>
-                </Property>
-                <Property name="selectedIndex" type="int" value="1"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="peakPickingComboBoxActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="peakPickingLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Peak Picking"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="compressionLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Compression"/>
@@ -576,6 +661,27 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="compressionComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="errorHandlingLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Errors"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="errorHandlingComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="Ignore missing instrument properties"/>
+                    <StringItem index="1" value="Stop conversion if instrument properties are missing"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="errorHandlingComboBoxActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

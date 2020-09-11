@@ -71,6 +71,9 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         peakPickingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         errorHandlingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         compressionComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        mgfTitlesComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        lowerMsLevelComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        upperMsLevelComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
 
         // set the font color for the titled borders, looks better than the default black
         UIManager.put("TitledBorder.titleColor", new Color(59, 59, 59));
@@ -80,7 +83,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
         // add the version number to the title bar
         setTitle("ThermoRawFileParserGUI " + new no.uib.raw_file_parser_gui.Properties().getVersion());
-        
+
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI.gif")));
 
         setLocationRelativeTo(null);
@@ -115,18 +118,24 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         settingsPanel = new javax.swing.JPanel();
         spectrumFormatLabel = new javax.swing.JLabel();
         spectrumFormatComboBox = new javax.swing.JComboBox<>();
+        mgfTitlesLabel = new javax.swing.JLabel();
+        mgfTitlesComboBox = new javax.swing.JComboBox<>();
+        msLevelsLabel = new javax.swing.JLabel();
+        lowerMsLevelComboBox = new javax.swing.JComboBox<>();
+        msLevelDivderLabel = new javax.swing.JLabel();
+        upperMsLevelComboBox = new javax.swing.JComboBox<>();
+        peakPickingComboBox = new javax.swing.JComboBox<>();
+        peakPickingLabel = new javax.swing.JLabel();
         metadataFormatLabel = new javax.swing.JLabel();
         metadataFormatComboBox = new javax.swing.JComboBox<>();
         allDetectorsLabel = new javax.swing.JLabel();
         allDetectorsComboBox = new javax.swing.JComboBox<>();
         gzippedLabel = new javax.swing.JLabel();
         gzippedComboBox = new javax.swing.JComboBox<>();
-        errorHandlingLabel = new javax.swing.JLabel();
-        errorHandlingComboBox = new javax.swing.JComboBox<>();
-        peakPickingComboBox = new javax.swing.JComboBox<>();
-        peakPickingLabel = new javax.swing.JLabel();
         compressionLabel = new javax.swing.JLabel();
         compressionComboBox = new javax.swing.JComboBox<>();
+        errorHandlingLabel = new javax.swing.JLabel();
+        errorHandlingComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ThermoRawFileParserGUI");
@@ -222,7 +231,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             }
         });
 
-        githubLinkLabel.setText("<html>For more details, see <a href=\\\"https://github.com/compomics/ThermoRawFileParserGUI\\\">ThermoRawFileParserGUI at GitHub</a></html>");
+        githubLinkLabel.setText("<html>For more details, see <br><a href=\\\"https://github.com/compomics/ThermoRawFileParserGUI\\\">ThermoRawFileParserGUI at GitHub</a></html>");
         githubLinkLabel.setToolTipText("Open the ThermoRawFileParserGUI GitHub page");
         githubLinkLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -279,7 +288,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             .addGroup(progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                    .addComponent(progressScrollPane)
                     .addGroup(progressPanelLayout.createSequentialGroup()
                         .addComponent(totalProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -289,7 +298,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addComponent(progressScrollPane)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(totalProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,6 +316,45 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 spectrumFormatComboBoxActionPerformed(evt);
             }
         });
+
+        mgfTitlesLabel.setText("MGF Titles");
+
+        mgfTitlesComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Default", "Include precursor scan number" }));
+        mgfTitlesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mgfTitlesComboBoxActionPerformed(evt);
+            }
+        });
+
+        msLevelsLabel.setText("MS Levels");
+
+        lowerMsLevelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "1", "2", "3" }));
+        lowerMsLevelComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowerMsLevelComboBoxActionPerformed(evt);
+            }
+        });
+
+        msLevelDivderLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        msLevelDivderLabel.setText("-");
+
+        upperMsLevelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
+        upperMsLevelComboBox.setEnabled(false);
+        upperMsLevelComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upperMsLevelComboBoxActionPerformed(evt);
+            }
+        });
+
+        peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No peak picking", "Native Thermo library peak picking" }));
+        peakPickingComboBox.setSelectedIndex(1);
+        peakPickingComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                peakPickingComboBoxActionPerformed(evt);
+            }
+        });
+
+        peakPickingLabel.setText("Peak Picking");
 
         metadataFormatLabel.setText("Metadata");
 
@@ -338,31 +386,21 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             }
         });
 
-        errorHandlingLabel.setText("Errors");
-
-        errorHandlingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ignore missing instrument properties", "Stop conversion if instrument properties are missing" }));
-        errorHandlingComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                errorHandlingComboBoxActionPerformed(evt);
-            }
-        });
-
-        peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No peak picking", "Native Thermo library peak picking" }));
-        peakPickingComboBox.setSelectedIndex(1);
-        peakPickingComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                peakPickingComboBoxActionPerformed(evt);
-            }
-        });
-
-        peakPickingLabel.setText("Peak Picking");
-
         compressionLabel.setText("Compression");
 
         compressionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "zlib", "None" }));
         compressionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compressionComboBoxActionPerformed(evt);
+            }
+        });
+
+        errorHandlingLabel.setText("Errors");
+
+        errorHandlingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ignore missing instrument properties", "Stop conversion if instrument properties are missing" }));
+        errorHandlingComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                errorHandlingComboBoxActionPerformed(evt);
             }
         });
 
@@ -374,29 +412,49 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(spectrumFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(gzippedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(metadataFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(errorHandlingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(peakPickingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(metadataFormatComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(gzippedComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(spectrumFormatComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 495, Short.MAX_VALUE)
-                            .addComponent(errorHandlingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(peakPickingComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
-                        .addComponent(compressionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(compressionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
-                        .addComponent(allDetectorsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(allDetectorsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spectrumFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gzippedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(metadataFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spectrumFormatComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(metadataFormatComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(gzippedComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addComponent(errorHandlingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(errorHandlingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addComponent(mgfTitlesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(mgfTitlesComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addComponent(allDetectorsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(allDetectorsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addComponent(peakPickingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(peakPickingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addComponent(msLevelsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lowerMsLevelComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(msLevelDivderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(upperMsLevelComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addComponent(compressionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(compressionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6))))
         );
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,27 +463,37 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(spectrumFormatLabel)
                     .addComponent(spectrumFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(compressionLabel)
-                    .addComponent(compressionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(mgfTitlesLabel)
+                    .addComponent(mgfTitlesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(metadataFormatLabel)
-                    .addComponent(metadataFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(allDetectorsLabel)
-                    .addComponent(allDetectorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gzippedLabel)
-                    .addComponent(gzippedComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(msLevelsLabel)
+                    .addComponent(lowerMsLevelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(msLevelDivderLabel)
+                    .addComponent(upperMsLevelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(peakPickingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(peakPickingLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(metadataFormatLabel)
+                    .addComponent(metadataFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(allDetectorsLabel)
+                    .addComponent(allDetectorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gzippedLabel)
+                    .addComponent(gzippedComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(compressionLabel)
+                    .addComponent(compressionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorHandlingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorHandlingLabel))
@@ -440,7 +508,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(aboutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(githubLinkLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addComponent(githubLinkLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
                 .addGap(76, 76, 76)
                 .addComponent(convertButton)
                 .addGap(23, 23, 23))
@@ -482,8 +550,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,154 +569,174 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      */
     private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
 
-        // prepare for processing
-        progressJTextArea.setText(null);
-        convertButton.setEnabled(false);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI-orange.gif")));
+        // check the validity of the the ms level range
+        if (lowerMsLevelComboBox.getSelectedIndex() != 0
+                && lowerMsLevelComboBox.getSelectedIndex() > upperMsLevelComboBox.getSelectedIndex() + 1) {
+            JOptionPane.showMessageDialog(this,
+                    "The MS level range is not a valid range.",
+                    "MS Level Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
 
-        // full path to executable
-        File thermoRawFileParserExecutable = new File(getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI")
-                + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe");
-        thermoRawFileParserExecutable.setExecutable(true);
+            // prepare for processing
+            progressJTextArea.setText(null);
+            convertButton.setEnabled(false);
+            setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI-orange.gif")));
 
-        // start the conversion
-        new Thread(new Runnable() {
-            public void run() {
+            // full path to executable
+            File thermoRawFileParserExecutable = new File(getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI")
+                    + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe");
+            thermoRawFileParserExecutable.setExecutable(true);
 
-                totalProgressBar.setMaximum(rawFiles.size());
-                totalProgressBar.setValue(0);
-                int fileConversionCounter = 0;
+            // start the conversion
+            new Thread(new Runnable() {
+                public void run() {
 
-                for (File tempRawFile : rawFiles) {
+                    totalProgressBar.setMaximum(rawFiles.size());
+                    totalProgressBar.setValue(0);
+                    int fileConversionCounter = 0;
 
-                    totalProgressBar.setString("Converting File " + ++fileConversionCounter + "/" + rawFiles.size());
-                    fileProgressBar.setValue(0);
+                    for (File tempRawFile : rawFiles) {
 
-                    // clear the previous process
-                    process_name_array.clear();
+                        totalProgressBar.setString("Converting File " + ++fileConversionCounter + "/" + rawFiles.size());
+                        fileProgressBar.setValue(0);
 
-                    // use mono if not on windows
-                    String operatingSystem = System.getProperty("os.name").toLowerCase();
-                    if (!operatingSystem.contains("windows")) {
-                        String monoPath = "mono";
+                        // clear the previous process
+                        process_name_array.clear();
 
-                        // modern mac os x versions need a specific mono path
-                        if (operatingSystem.contains("mac os x")) {
-                            StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"), ".");
-                            if (versionTokens.countTokens() > 1) {
-                                int mainVersion = new Integer(versionTokens.nextToken());
-                                int subversion = new Integer(versionTokens.nextToken());
-                                if (mainVersion >= 10 && subversion >= 11) {
-                                    monoPath = "/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";
+                        // use mono if not on windows
+                        String operatingSystem = System.getProperty("os.name").toLowerCase();
+                        if (!operatingSystem.contains("windows")) {
+                            String monoPath = "mono";
+
+                            // modern mac os x versions need a specific mono path
+                            if (operatingSystem.contains("mac os x")) {
+                                StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"), ".");
+                                if (versionTokens.countTokens() > 1) {
+                                    int mainVersion = new Integer(versionTokens.nextToken());
+                                    int subversion = new Integer(versionTokens.nextToken());
+                                    if (mainVersion >= 10 && subversion >= 11) {
+                                        monoPath = "/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";
+                                    }
                                 }
                             }
+                            process_name_array.add(monoPath);
                         }
-                        process_name_array.add(monoPath);
-                    }
 
-                    // add the executable
-                    process_name_array.add(thermoRawFileParserExecutable.getAbsolutePath());
+                        // add the executable
+                        process_name_array.add(thermoRawFileParserExecutable.getAbsolutePath());
 
-                    // add the conversion parameters
-                    process_name_array.add("-i=" + tempRawFile.getAbsolutePath());
-                    process_name_array.add("-o=" + outputFolderTextField.getText());
-                    if (spectrumFormatComboBox.getSelectedIndex() < spectrumFormatComboBox.getItemCount() - 1) {
-                        process_name_array.add("-f=" + spectrumFormatComboBox.getSelectedIndex());
-                    }
-                    if (metadataFormatComboBox.getSelectedIndex() < metadataFormatComboBox.getItemCount() - 1) {
-                        process_name_array.add("-m=" + metadataFormatComboBox.getSelectedIndex());
-                    }
-                    if (gzippedComboBox.getSelectedIndex() == 0) {
-                        process_name_array.add("-g");
-                    }
-                    if (peakPickingComboBox.getSelectedIndex() == 0) {
-                        process_name_array.add("-p");
-                    }
-                    if (compressionComboBox.getSelectedIndex() == 1) {
-                        process_name_array.add("-z");
-                    }
-                    if (allDetectorsComboBox.getSelectedIndex() == 1) {
-                        process_name_array.add("-a");
-                    }
-                    if (errorHandlingComboBox.getSelectedIndex() == 0) {
-                        process_name_array.add("-e");
-                    }
-
-                    // print the command to the log area
-                    if (debug) {
-                        progressJTextArea.append("ThermoRawFileParser command:" + System.getProperty("line.separator"));
-                        for (Object element : process_name_array) {
-                            progressJTextArea.append(element + " ");
+                        // add the conversion parameters
+                        process_name_array.add("-i=" + tempRawFile.getAbsolutePath());
+                        process_name_array.add("-o=" + outputFolderTextField.getText());
+                        if (spectrumFormatComboBox.getSelectedIndex() < spectrumFormatComboBox.getItemCount() - 1) {
+                            process_name_array.add("-f=" + spectrumFormatComboBox.getSelectedIndex());
                         }
-                        progressJTextArea.append(System.getProperty("line.separator") + System.getProperty("line.separator"));
-                    }
+                        if (metadataFormatComboBox.getSelectedIndex() < metadataFormatComboBox.getItemCount() - 1) {
+                            process_name_array.add("-m=" + metadataFormatComboBox.getSelectedIndex());
+                        }
+                        if (gzippedComboBox.getSelectedIndex() == 0) {
+                            process_name_array.add("-g");
+                        }
+                        if (peakPickingComboBox.getSelectedIndex() == 0) {
+                            process_name_array.add("-p");
+                        }
+                        if (compressionComboBox.getSelectedIndex() == 1) {
+                            process_name_array.add("-z");
+                        }
+                        if (allDetectorsComboBox.getSelectedIndex() == 1) {
+                            process_name_array.add("-a");
+                        }
+                        if (errorHandlingComboBox.getSelectedIndex() == 0) {
+                            process_name_array.add("-e");
+                        }
+                        if (spectrumFormatComboBox.getSelectedIndex() == 0
+                                && mgfTitlesComboBox.getSelectedIndex() == 1) {
+                            process_name_array.add("-P");
+                        }
+                        if (lowerMsLevelComboBox.getSelectedIndex() != 0) {
+                            process_name_array.add("-L="
+                                    + (lowerMsLevelComboBox.getSelectedIndex())
+                                    + "-"
+                                    + (upperMsLevelComboBox.getSelectedIndex() + 1)
+                            );
+                        }
 
-                    // set up the process and redirect the error stream
-                    pb = new ProcessBuilder(process_name_array);
-                    pb.redirectErrorStream(true);
-
-                    try {
-                        p = pb.start();
-
-                        // get the inputstream from the process
-                        InputStream inputStream = p.getInputStream();
-
-                        Scanner scanner = new Scanner(inputStream);
-                        scanner.useDelimiter("\\s|\\n");
-
-                        boolean lastLineWasEmpty = false;
-
-                        // get input from scanner, send to progress area
-                        while (scanner.hasNext()) {
-                            String temp = scanner.next();
-
-                            if (!temp.isEmpty()) {
-
-                                if (temp.endsWith("%")) {
-                                    fileProgressBar.setValue(fileProgressBar.getValue() + 10);
-                                } else {
-                                    progressJTextArea.append(temp + " ");
-                                    lastLineWasEmpty = false;
-                                }
-
-                                progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
-                            } else {
-                                if (!lastLineWasEmpty) {
-                                    progressJTextArea.append("\n");
-                                }
-                                lastLineWasEmpty = true;
+                        // print the command to the log area
+                        if (debug) {
+                            progressJTextArea.append("ThermoRawFileParser command:" + System.getProperty("line.separator"));
+                            for (Object element : process_name_array) {
+                                progressJTextArea.append(element + " ");
                             }
+                            progressJTextArea.append(System.getProperty("line.separator") + System.getProperty("line.separator"));
                         }
 
-                        scanner.close();
-                        inputStream.close();
+                        // set up the process and redirect the error stream
+                        pb = new ProcessBuilder(process_name_array);
+                        pb.redirectErrorStream(true);
 
-                    } catch (IOException ex) {
-                        progressJTextArea.append(ex.getMessage());
-                        ex.printStackTrace();
-                    } finally {
-                        // wait for the process to terminate
                         try {
-                            p.waitFor();
-                            totalProgressBar.setValue(fileConversionCounter);
-                            progressJTextArea.append(System.getProperty("line.separator")
-                                    + "Conversion complete for " + tempRawFile.getAbsolutePath()
-                                    + System.getProperty("line.separator") + System.getProperty("line.separator"));
-                            progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
-                        } catch (InterruptedException e) {
-                            if (p != null) {
-                                p.destroy();
+                            p = pb.start();
+
+                            // get the inputstream from the process
+                            InputStream inputStream = p.getInputStream();
+
+                            Scanner scanner = new Scanner(inputStream);
+                            scanner.useDelimiter("\\s|\\n");
+
+                            boolean lastLineWasEmpty = false;
+
+                            // get input from scanner, send to progress area
+                            while (scanner.hasNext()) {
+                                String temp = scanner.next();
+
+                                if (!temp.isEmpty()) {
+
+                                    if (temp.endsWith("%")) {
+                                        fileProgressBar.setValue(fileProgressBar.getValue() + 10);
+                                    } else {
+                                        progressJTextArea.append(temp + " ");
+                                        lastLineWasEmpty = false;
+                                    }
+
+                                    progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                                } else {
+                                    if (!lastLineWasEmpty) {
+                                        progressJTextArea.append("\n");
+                                    }
+                                    lastLineWasEmpty = true;
+                                }
+                            }
+
+                            scanner.close();
+                            inputStream.close();
+
+                        } catch (IOException ex) {
+                            progressJTextArea.append(ex.getMessage());
+                            ex.printStackTrace();
+                        } finally {
+                            // wait for the process to terminate
+                            try {
+                                p.waitFor();
+                                totalProgressBar.setValue(fileConversionCounter);
+                                progressJTextArea.append(System.getProperty("line.separator")
+                                        + "Conversion complete for " + tempRawFile.getAbsolutePath()
+                                        + System.getProperty("line.separator") + System.getProperty("line.separator"));
+                                progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                            } catch (InterruptedException e) {
+                                if (p != null) {
+                                    p.destroy();
+                                }
                             }
                         }
                     }
-                }
 
-                progressJTextArea.append("Done");
-                progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
-                convertButton.setEnabled(true);
-                setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI.gif")));
-            }
-        }, "ConvertThread").start();
+                    progressJTextArea.append("Done");
+                    progressJTextArea.setCaretPosition(progressJTextArea.getDocument().getLength());
+                    convertButton.setEnabled(true);
+                    setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI.gif")));
+                }
+            }, "ConvertThread").start();
+        }
 
     }//GEN-LAST:event_convertButtonActionPerformed
 
@@ -876,18 +963,22 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     /**
      * Clear the old results and validate the input.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void spectrumFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spectrumFormatComboBoxActionPerformed
+
+        mgfTitlesLabel.setEnabled(spectrumFormatComboBox.getSelectedIndex() == 0);
+        mgfTitlesComboBox.setEnabled(spectrumFormatComboBox.getSelectedIndex() == 0);
+
         resetGui();
         validateInput();
     }//GEN-LAST:event_spectrumFormatComboBoxActionPerformed
 
     /**
      * Clear the old results and validate the input.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void metadataFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_metadataFormatComboBoxActionPerformed
         resetGui();
@@ -896,8 +987,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     /**
      * Clear the old results.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void gzippedComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gzippedComboBoxActionPerformed
         resetGui();
@@ -905,8 +996,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     /**
      * Clear the old results.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void peakPickingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peakPickingComboBoxActionPerformed
         resetGui();
@@ -914,8 +1005,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     /**
      * Clear the old results.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void errorHandlingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorHandlingComboBoxActionPerformed
         resetGui();
@@ -923,8 +1014,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     /**
      * Clear the old results.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void compressionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compressionComboBoxActionPerformed
         resetGui();
@@ -932,12 +1023,40 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
     /**
      * Clear the old results.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void allDetectorsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allDetectorsComboBoxActionPerformed
         resetGui();
     }//GEN-LAST:event_allDetectorsComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     *
+     * @param evt
+     */
+    private void mgfTitlesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mgfTitlesComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_mgfTitlesComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     *
+     * @param evt
+     */
+    private void upperMsLevelComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upperMsLevelComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_upperMsLevelComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     *
+     * @param evt
+     */
+    private void lowerMsLevelComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowerMsLevelComboBoxActionPerformed
+        upperMsLevelComboBox.setEnabled(lowerMsLevelComboBox.getSelectedIndex() != 0);
+        resetGui();
+    }//GEN-LAST:event_lowerMsLevelComboBoxActionPerformed
 
     /**
      * The main method used to start ThermoRawFileParserGUI.
@@ -988,8 +1107,13 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> gzippedComboBox;
     private javax.swing.JLabel gzippedLabel;
     private javax.swing.JPanel inputAndOutputPanel;
+    private javax.swing.JComboBox<String> lowerMsLevelComboBox;
     private javax.swing.JComboBox<String> metadataFormatComboBox;
     private javax.swing.JLabel metadataFormatLabel;
+    private javax.swing.JComboBox<String> mgfTitlesComboBox;
+    private javax.swing.JLabel mgfTitlesLabel;
+    private javax.swing.JLabel msLevelDivderLabel;
+    private javax.swing.JLabel msLevelsLabel;
     private javax.swing.JLabel outputFolderLabel;
     private javax.swing.JTextField outputFolderTextField;
     private javax.swing.JComboBox<String> peakPickingComboBox;
@@ -1003,6 +1127,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> spectrumFormatComboBox;
     private javax.swing.JLabel spectrumFormatLabel;
     private javax.swing.JProgressBar totalProgressBar;
+    private javax.swing.JComboBox<String> upperMsLevelComboBox;
     // End of variables declaration//GEN-END:variables
 
     /**
