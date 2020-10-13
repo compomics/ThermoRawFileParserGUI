@@ -155,7 +155,7 @@
                           <Component id="browseRawFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="rawFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="outputFolderTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="browseOutputFolderButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -345,7 +345,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -365,7 +365,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="errorHandlingLabel" min="-2" pref="80" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="errorHandlingComboBox" max="32767" attributes="0"/>
+                                      <Component id="errorHandlingComboBox" pref="460" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="mgfTitlesLabel" min="-2" pref="80" max="-2" attributes="0"/>
@@ -403,6 +403,12 @@
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="exceptionsLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="exceptionsComboBox" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -442,6 +448,11 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="allDetectorsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="allDetectorsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="exceptionsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="exceptionsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -682,6 +693,28 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="errorHandlingComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="exceptionsLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Exceptions"/>
+                <Property name="toolTipText" type="java.lang.String" value="Include reference and exception data"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="exceptionsComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="Exclude reference and exception data"/>
+                    <StringItem index="1" value="Include reference and exception data"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exceptionsComboBoxActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

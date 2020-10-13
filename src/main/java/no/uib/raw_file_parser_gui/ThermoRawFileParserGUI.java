@@ -74,6 +74,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         mgfTitlesComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         lowerMsLevelComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         upperMsLevelComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        exceptionsComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
 
         // set the font color for the titled borders, looks better than the default black
         UIManager.put("TitledBorder.titleColor", new Color(59, 59, 59));
@@ -136,6 +137,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         compressionComboBox = new javax.swing.JComboBox<>();
         errorHandlingLabel = new javax.swing.JLabel();
         errorHandlingComboBox = new javax.swing.JComboBox<>();
+        exceptionsLabel = new javax.swing.JLabel();
+        exceptionsComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ThermoRawFileParserGUI");
@@ -211,7 +214,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     .addComponent(rawFileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseRawFileButton)
                     .addComponent(rawFileLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(inputAndOutputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(outputFolderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseOutputFolderButton)
@@ -404,6 +407,16 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             }
         });
 
+        exceptionsLabel.setText("Exceptions");
+        exceptionsLabel.setToolTipText("Include reference and exception data");
+
+        exceptionsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Exclude reference and exception data", "Include reference and exception data" }));
+        exceptionsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exceptionsComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -426,7 +439,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(errorHandlingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(errorHandlingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(errorHandlingComboBox, 0, 460, Short.MAX_VALUE))
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(mgfTitlesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -454,7 +467,12 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                                 .addComponent(compressionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(compressionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(6, 6, 6))))
+                        .addGap(6, 6, 6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                        .addComponent(exceptionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(exceptionsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -485,6 +503,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(allDetectorsLabel)
                     .addComponent(allDetectorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exceptionsLabel)
+                    .addComponent(exceptionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gzippedLabel)
@@ -652,6 +674,9 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                         if (spectrumFormatComboBox.getSelectedIndex() == 0
                                 && mgfTitlesComboBox.getSelectedIndex() == 1) {
                             process_name_array.add("-P");
+                        }
+                        if (exceptionsComboBox.getSelectedIndex() == 1) {
+                            process_name_array.add("-x");
                         }
                         if (lowerMsLevelComboBox.getSelectedIndex() != 0) {
                             process_name_array.add("-L="
@@ -1059,6 +1084,15 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_lowerMsLevelComboBoxActionPerformed
 
     /**
+     * Clear the old results.
+     *
+     * @param evt
+     */
+    private void exceptionsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exceptionsComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_exceptionsComboBoxActionPerformed
+
+    /**
      * The main method used to start ThermoRawFileParserGUI.
      *
      * @param args the command line arguments
@@ -1102,6 +1136,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JButton convertButton;
     private javax.swing.JComboBox<String> errorHandlingComboBox;
     private javax.swing.JLabel errorHandlingLabel;
+    private javax.swing.JComboBox<String> exceptionsComboBox;
+    private javax.swing.JLabel exceptionsLabel;
     private javax.swing.JProgressBar fileProgressBar;
     private javax.swing.JLabel githubLinkLabel;
     private javax.swing.JComboBox<String> gzippedComboBox;
