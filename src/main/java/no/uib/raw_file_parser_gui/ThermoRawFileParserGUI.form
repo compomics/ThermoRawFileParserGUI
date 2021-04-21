@@ -63,7 +63,7 @@
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="aboutButton" min="-2" pref="116" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="githubLinkLabel" pref="204" max="32767" attributes="0"/>
+                  <Component id="githubLinkLabel" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                   <Component id="convertButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
@@ -290,7 +290,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="progressScrollPane" max="32767" attributes="0"/>
+                      <Component id="progressScrollPane" pref="88" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="totalProgressBar" min="-2" max="-2" attributes="0"/>
@@ -345,7 +345,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -365,7 +365,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="errorHandlingLabel" min="-2" pref="80" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="errorHandlingComboBox" pref="460" max="32767" attributes="0"/>
+                                      <Component id="errorHandlingComboBox" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="mgfTitlesLabel" min="-2" pref="80" max="-2" attributes="0"/>
@@ -385,16 +385,20 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="peakPickingLabel" min="-2" pref="80" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="peakPickingComboBox" max="32767" attributes="0"/>
+                                      <Component id="lowerPeakPickingLevelComboBox" pref="212" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="msLevelDivderLabel1" min="-2" pref="33" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      <Component id="upperPeakPickingLevelComboBox" pref="212" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="msLevelsLabel" min="-2" pref="80" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lowerMsLevelComboBox" max="32767" attributes="0"/>
+                                      <Component id="lowerMsLevelComboBox" pref="212" max="32767" attributes="0"/>
                                       <EmptySpace min="-2" max="-2" attributes="0"/>
                                       <Component id="msLevelDivderLabel" min="-2" pref="33" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Component id="upperMsLevelComboBox" max="32767" attributes="0"/>
+                                      <Component id="upperMsLevelComboBox" pref="212" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="compressionLabel" min="-2" pref="80" max="-2" attributes="0"/>
@@ -436,8 +440,10 @@
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="peakPickingComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="peakPickingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lowerPeakPickingLevelComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="msLevelDivderLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="upperPeakPickingLevelComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -562,23 +568,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upperMsLevelComboBoxActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="peakPickingComboBox">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="No peak picking"/>
-                    <StringItem index="1" value="Native Thermo library peak picking"/>
-                  </StringArray>
-                </Property>
-                <Property name="selectedIndex" type="int" value="1"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="peakPickingComboBoxActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -715,6 +704,50 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exceptionsComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="lowerPeakPickingLevelComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="5">
+                    <StringItem index="0" value="No"/>
+                    <StringItem index="1" value="MS1"/>
+                    <StringItem index="2" value="MS2"/>
+                    <StringItem index="3" value="MS3"/>
+                    <StringItem index="4" value="All"/>
+                  </StringArray>
+                </Property>
+                <Property name="selectedIndex" type="int" value="4"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lowerPeakPickingLevelComboBoxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="msLevelDivderLabel1">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="-"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="upperPeakPickingLevelComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="3">
+                    <StringItem index="0" value="MS1"/>
+                    <StringItem index="1" value="MS2"/>
+                    <StringItem index="2" value="MS3"/>
+                  </StringArray>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upperPeakPickingLevelComboBoxActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

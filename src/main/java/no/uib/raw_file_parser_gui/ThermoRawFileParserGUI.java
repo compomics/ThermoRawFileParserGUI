@@ -68,7 +68,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         metadataFormatComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         allDetectorsComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         gzippedComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
-        peakPickingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        lowerPeakPickingLevelComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
+        upperPeakPickingLevelComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         errorHandlingComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         compressionComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
         mgfTitlesComboBox.setRenderer(new AlignedListCellRenderer(SwingConstants.CENTER));
@@ -125,7 +126,6 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         lowerMsLevelComboBox = new javax.swing.JComboBox<>();
         msLevelDivderLabel = new javax.swing.JLabel();
         upperMsLevelComboBox = new javax.swing.JComboBox<>();
-        peakPickingComboBox = new javax.swing.JComboBox<>();
         peakPickingLabel = new javax.swing.JLabel();
         metadataFormatLabel = new javax.swing.JLabel();
         metadataFormatComboBox = new javax.swing.JComboBox<>();
@@ -139,6 +139,9 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         errorHandlingComboBox = new javax.swing.JComboBox<>();
         exceptionsLabel = new javax.swing.JLabel();
         exceptionsComboBox = new javax.swing.JComboBox<>();
+        lowerPeakPickingLevelComboBox = new javax.swing.JComboBox<>();
+        msLevelDivderLabel1 = new javax.swing.JLabel();
+        upperPeakPickingLevelComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ThermoRawFileParserGUI");
@@ -301,7 +304,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addComponent(progressScrollPane)
+                .addComponent(progressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(totalProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,14 +349,6 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
         upperMsLevelComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 upperMsLevelComboBoxActionPerformed(evt);
-            }
-        });
-
-        peakPickingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No peak picking", "Native Thermo library peak picking" }));
-        peakPickingComboBox.setSelectedIndex(1);
-        peakPickingComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                peakPickingComboBoxActionPerformed(evt);
             }
         });
 
@@ -417,6 +412,25 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             }
         });
 
+        lowerPeakPickingLevelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No", "MS1", "MS2", "MS3", "All" }));
+        lowerPeakPickingLevelComboBox.setSelectedIndex(4);
+        lowerPeakPickingLevelComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowerPeakPickingLevelComboBoxActionPerformed(evt);
+            }
+        });
+
+        msLevelDivderLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        msLevelDivderLabel1.setText("-");
+
+        upperPeakPickingLevelComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MS1", "MS2", "MS3" }));
+        upperPeakPickingLevelComboBox.setEnabled(false);
+        upperPeakPickingLevelComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upperPeakPickingLevelComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -439,7 +453,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(errorHandlingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(errorHandlingComboBox, 0, 460, Short.MAX_VALUE))
+                                .addComponent(errorHandlingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(mgfTitlesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -454,15 +468,19 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(peakPickingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(peakPickingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lowerPeakPickingLevelComboBox, 0, 212, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(msLevelDivderLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(upperPeakPickingLevelComboBox, 0, 212, Short.MAX_VALUE))
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(msLevelsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lowerMsLevelComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lowerMsLevelComboBox, 0, 212, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(msLevelDivderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(upperMsLevelComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(upperMsLevelComboBox, 0, 212, Short.MAX_VALUE))
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addComponent(compressionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -493,8 +511,10 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                     .addComponent(upperMsLevelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(peakPickingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(peakPickingLabel))
+                    .addComponent(peakPickingLabel)
+                    .addComponent(lowerPeakPickingLevelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(msLevelDivderLabel1)
+                    .addComponent(upperPeakPickingLevelComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(metadataFormatLabel)
@@ -530,7 +550,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(aboutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(githubLinkLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(githubLinkLabel)
                 .addGap(76, 76, 76)
                 .addComponent(convertButton)
                 .addGap(23, 23, 23))
@@ -591,13 +611,33 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      */
     private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
 
+        boolean valid = true;
+
         // check the validity of the the ms level range
         if (lowerMsLevelComboBox.getSelectedIndex() != 0
                 && lowerMsLevelComboBox.getSelectedIndex() > upperMsLevelComboBox.getSelectedIndex() + 1) {
+
             JOptionPane.showMessageDialog(this,
                     "The MS level range is not a valid range.",
                     "MS Level Error", JOptionPane.INFORMATION_MESSAGE);
-        } else {
+
+            valid = false;
+
+        }
+
+        // check the validity of the peak picking levels
+        if (valid && (lowerPeakPickingLevelComboBox.getSelectedIndex() > 0 && lowerPeakPickingLevelComboBox.getSelectedIndex() < 4)
+                && lowerPeakPickingLevelComboBox.getSelectedIndex() > upperPeakPickingLevelComboBox.getSelectedIndex() + 1) {
+
+            JOptionPane.showMessageDialog(this,
+                    "The peak picking range is not a valid range.",
+                    "Peak Picking Error", JOptionPane.INFORMATION_MESSAGE);
+
+            valid = false;
+
+        }
+
+        if (valid) {
 
             // prepare for processing
             progressJTextArea.setText(null);
@@ -634,8 +674,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             if (operatingSystem.contains("mac os x")) {
                                 StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"), ".");
                                 if (versionTokens.countTokens() > 1) {
-                                    int mainVersion = new Integer(versionTokens.nextToken());
-                                    int subversion = new Integer(versionTokens.nextToken());
+                                    int mainVersion = Integer.parseInt(versionTokens.nextToken());
+                                    int subversion = Integer.parseInt(versionTokens.nextToken());
                                     if (mainVersion >= 10 && subversion >= 11) {
                                         monoPath = "/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";
                                     }
@@ -659,8 +699,31 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                         if (gzippedComboBox.getSelectedIndex() == 0) {
                             process_name_array.add("-g");
                         }
-                        if (peakPickingComboBox.getSelectedIndex() == 0) {
+                        if (lowerPeakPickingLevelComboBox.getSelectedIndex() == 4) {
+                            // peak picking all ms levels
+                        } else if (lowerPeakPickingLevelComboBox.getSelectedIndex() == 0) {
+                            // no peak picking at all
                             process_name_array.add("-p");
+                        } else if (lowerPeakPickingLevelComboBox.getSelectedIndex() < 4) {
+                            
+                            // peak pick only certain ms levels
+                            int lowerLevel = lowerPeakPickingLevelComboBox.getSelectedIndex();
+                            int upperLevel = upperPeakPickingLevelComboBox.getSelectedIndex() + 1;
+
+                            String noPeakPicking = "";
+                            
+                            for (int i = 1; i < 4; i++) {
+                                
+                                if (i < lowerLevel || i > upperLevel) {
+                                    if (!noPeakPicking.isEmpty()) {
+                                        noPeakPicking += ",";
+                                    }
+                                    noPeakPicking += i;
+                                }
+
+                            }
+                            
+                            process_name_array.add("-p="+ noPeakPicking);
                         }
                         if (compressionComboBox.getSelectedIndex() == 1) {
                             process_name_array.add("-z");
@@ -1024,15 +1087,6 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
      *
      * @param evt
      */
-    private void peakPickingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peakPickingComboBoxActionPerformed
-        resetGui();
-    }//GEN-LAST:event_peakPickingComboBoxActionPerformed
-
-    /**
-     * Clear the old results.
-     *
-     * @param evt
-     */
     private void errorHandlingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorHandlingComboBoxActionPerformed
         resetGui();
     }//GEN-LAST:event_errorHandlingComboBoxActionPerformed
@@ -1093,13 +1147,35 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exceptionsComboBoxActionPerformed
 
     /**
+     * Clear the old results.
+     *
+     * @param evt
+     */
+    private void lowerPeakPickingLevelComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowerPeakPickingLevelComboBoxActionPerformed
+        upperPeakPickingLevelComboBox.setEnabled(
+                lowerPeakPickingLevelComboBox.getSelectedIndex() > 0
+                && lowerPeakPickingLevelComboBox.getSelectedIndex() < 4
+        );
+        resetGui();
+    }//GEN-LAST:event_lowerPeakPickingLevelComboBoxActionPerformed
+
+    /**
+     * Clear the old results.
+     *
+     * @param evt
+     */
+    private void upperPeakPickingLevelComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upperPeakPickingLevelComboBoxActionPerformed
+        resetGui();
+    }//GEN-LAST:event_upperPeakPickingLevelComboBoxActionPerformed
+
+    /**
      * The main method used to start ThermoRawFileParserGUI.
      *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
 
-        /* Set the Nimbus look and feel */
+        // set the Nimbus look and feel
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -1119,7 +1195,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             TITLED_BORDER_HORIZONTAL_PADDING = "   ";
         }
 
-        /* Create and display the form */
+        // create and display the form
         new ThermoRawFileParserGUI();
 
     }
@@ -1144,15 +1220,16 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JLabel gzippedLabel;
     private javax.swing.JPanel inputAndOutputPanel;
     private javax.swing.JComboBox<String> lowerMsLevelComboBox;
+    private javax.swing.JComboBox<String> lowerPeakPickingLevelComboBox;
     private javax.swing.JComboBox<String> metadataFormatComboBox;
     private javax.swing.JLabel metadataFormatLabel;
     private javax.swing.JComboBox<String> mgfTitlesComboBox;
     private javax.swing.JLabel mgfTitlesLabel;
     private javax.swing.JLabel msLevelDivderLabel;
+    private javax.swing.JLabel msLevelDivderLabel1;
     private javax.swing.JLabel msLevelsLabel;
     private javax.swing.JLabel outputFolderLabel;
     private javax.swing.JTextField outputFolderTextField;
-    private javax.swing.JComboBox<String> peakPickingComboBox;
     private javax.swing.JLabel peakPickingLabel;
     private javax.swing.JTextArea progressJTextArea;
     private javax.swing.JPanel progressPanel;
@@ -1164,6 +1241,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
     private javax.swing.JLabel spectrumFormatLabel;
     private javax.swing.JProgressBar totalProgressBar;
     private javax.swing.JComboBox<String> upperMsLevelComboBox;
+    private javax.swing.JComboBox<String> upperPeakPickingLevelComboBox;
     // End of variables declaration//GEN-END:variables
 
     /**
