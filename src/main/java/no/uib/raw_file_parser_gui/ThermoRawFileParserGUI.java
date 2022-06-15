@@ -738,7 +738,7 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                                 && mgfTitlesComboBox.getSelectedIndex() == 1) {
                             process_name_array.add("-P");
                         }
-                        if (exceptionsComboBox.getSelectedIndex() == 1) {
+                        if (exceptionsComboBox.getSelectedIndex() == 0) {
                             process_name_array.add("-x");
                         }
                         if (lowerMsLevelComboBox.getSelectedIndex() != 0) {
