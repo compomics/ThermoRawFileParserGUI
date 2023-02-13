@@ -645,8 +645,11 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
             setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/ThermoRawFileParserGUI-orange.gif")));
 
             // full path to executable
-            File thermoRawFileParserExecutable = new File(getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI")
-                    + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe");
+            File thermoRawFileParserExecutable = new File(
+                    getJarFilePath(this.getClass().getResource("ThermoRawFileParserGUI.class").getPath(), "ThermoRawFileParserGUI")
+                    + File.separator + "resources" + File.separator + "ThermoRawFileParser" + File.separator + "ThermoRawFileParser.exe"
+            );
+
             thermoRawFileParserExecutable.setExecutable(true);
 
             // start the conversion
@@ -667,20 +670,29 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
 
                         // use mono if not on windows
                         String operatingSystem = System.getProperty("os.name").toLowerCase();
+
                         if (!operatingSystem.contains("windows")) {
+
                             String monoPath = "mono";
 
                             // modern mac os x versions need a specific mono path
                             if (operatingSystem.contains("mac os x")) {
+
                                 StringTokenizer versionTokens = new StringTokenizer(System.getProperty("os.version"), ".");
+
                                 if (versionTokens.countTokens() > 1) {
+
                                     int mainVersion = Integer.parseInt(versionTokens.nextToken());
                                     int subversion = Integer.parseInt(versionTokens.nextToken());
+
                                     if (mainVersion >= 10 && subversion >= 11) {
                                         monoPath = "/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";
                                     }
+
                                 }
+
                             }
+
                             process_name_array.add(monoPath);
                         }
 
@@ -705,15 +717,15 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                             // no peak picking at all
                             process_name_array.add("-p");
                         } else if (lowerPeakPickingLevelComboBox.getSelectedIndex() < 4) {
-                            
+
                             // peak pick only certain ms levels
                             int lowerLevel = lowerPeakPickingLevelComboBox.getSelectedIndex();
                             int upperLevel = upperPeakPickingLevelComboBox.getSelectedIndex() + 1;
 
                             String noPeakPicking = "";
-                            
+
                             for (int i = 1; i < 4; i++) {
-                                
+
                                 if (i < lowerLevel || i > upperLevel) {
                                     if (!noPeakPicking.isEmpty()) {
                                         noPeakPicking += ",";
@@ -722,8 +734,8 @@ public class ThermoRawFileParserGUI extends javax.swing.JFrame {
                                 }
 
                             }
-                            
-                            process_name_array.add("-p="+ noPeakPicking);
+
+                            process_name_array.add("-p=" + noPeakPicking);
                         }
                         if (compressionComboBox.getSelectedIndex() == 1) {
                             process_name_array.add("-z");
